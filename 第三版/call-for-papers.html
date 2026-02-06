@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Call for Papers | GeoFM Workshop @ ICML 2025</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #0a0d1a;
+            --primary-darker: #060912;
+            --primary-blue: #13244d;
+            --secondary-blue: #1d3a78;
+            --accent-cyan: #3dbbd3;
+            --accent-teal: #5ad8e6;
+            --light-bg: #f5f7fa;
+            --text-dark: #1a2332;
+            --text-light: #e0e6ef;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.18);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            background-color: #fafbfc;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(19, 36, 77, 0.03) 0%, rgba(10, 15, 29, 0.05) 100%);
+            z-index: -2;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            color: var(--primary-dark);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-accent {
+            color: var(--accent-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+        }
+
+        .nav-links a {
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-cyan);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-blue);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary-blue);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .section-container {
+            padding: 4rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 0.8rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--accent-cyan);
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--secondary-blue);
+            margin-top: 1rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .abstract-section {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2.5rem;
+            border-left: 5px solid var(--accent-cyan);
+        }
+
+        .abstract-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .abstract-title i {
+            color: var(--accent-cyan);
+        }
+
+        .abstract-content {
+            line-height: 1.8;
+            font-size: 1.05rem;
+            color: var(--text-dark);
+        }
+
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.8rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .topic-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.8rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(19, 36, 77, 0.08);
+            transition: var(--transition);
+        }
+
+        .topic-card:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .topic-card h3 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            font-size: 1.3rem;
+        }
+
+        .topic-card h3 i {
+            color: var(--accent-cyan);
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2px;
+        }
+
+        .topic-card ul {
+            padding-left: 1.8rem;
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        .topic-card li {
+            margin-bottom: 0.5rem;
+        }
+
+        .submission-details {
+            background: rgba(19, 36, 77, 0.05);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-top: 2rem;
+            border-left: 4px solid var(--accent-cyan);
+        }
+
+        .deadline {
+            color: #e53e3e;
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+
+        .important-dates {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1.2rem;
+        }
+
+        .date-item {
+            background: white;
+            padding: 1.2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+        }
+
+        .date-item .date {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 0.4rem;
+        }
+
+        .date-item .description {
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+
+        .committee-section {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            margin-top: 2.5rem;
+        }
+
+        .committee-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 1.2rem;
+            text-align: center;
+        }
+
+        .committee-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .committee-member {
+            text-align: center;
+            padding: 0.8rem;
+        }
+
+        .committee-avatar {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            object-fit: cover;
+            overflow: hidden;
+            margin: 0 auto 0.8rem;
+            border: 2px solid var(--accent-cyan);
+            background: var(--light-bg);
+            display: block;
+        }
+
+        .committee-name {
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 0.2rem;
+        }
+
+        .committee-affiliation {
+            color: var(--secondary-blue);
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            background: var(--primary-darker);
+            color: var(--text-light);
+            padding: 2.5rem 0 1.5rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-logo span {
+            color: var(--accent-cyan);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .copyright {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .back-link:hover {
+            color: var(--secondary-blue);
+            transform: translateX(-3px);
+        }
+
+        .submit-btn {
+            background: var(--accent-cyan);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            margin-top: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .submit-btn:hover {
+            background: #2ea5b7;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Responsive design */
+        @media (max-width: 992px) {
+            .nav-links {
+                gap: 0.6rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .section-title {
+                font-size: 1.7rem;
+            }
+            
+            .topics-grid,
+            .important-dates,
+            .committee-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .content-section {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                Geo<span class="logo-accent">FM</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="speakers.html" class="nav-link">Speakers</a></li>
+                <li><a href="organizers.html" class="nav-link">Organizers</a></li>
+                <li><a href="schedule.html" class="nav-link">Schedule</a></li>
+                <li><a href="forum.html" class="nav-link">Forum</a></li>
+                <li><a href="awards.html" class="nav-link">Awards</a></li>
+                <li><a href="call-for-papers.html" class="nav-link active">Call for Papers</a></li>
+                <li><a href="register.html" class="nav-link">Register</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Call for Papers Page -->
+    <div class="content-section">
+        <div class="section-container">
+            <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+            
+            <div class="section-header">
+                <h2 class="section-title">Call for Papers</h2>
+                <p class="section-subtitle">Submit your research on geometric foundation models</p>
+            </div>
+
+            <div class="abstract-section">
+                <h2 class="abstract-title"><i class="fas fa-info-circle"></i> Workshop Overview</h2>
+                <div class="abstract-content">
+                    <p>The Workshop on Geometric Foundation Models (GeoFM) aims to bring together researchers from geometric deep learning, foundation models, and scientific computing to address fundamental challenges at their intersection. While foundation models have revolutionized many domains, their application to scientific data with inherent geometric structure remains challenging. This workshop focuses on how to effectively incorporate geometric priors—such as symmetries, invariances, and physical constraints—into foundation models for scientific applications.</p>
+                </div>
+            </div>
+
+            <div class="section-header" style="margin-top: 2.5rem;">
+                <h2 class="section-title">Topics of Interest</h2>
+                <p class="section-subtitle">We welcome submissions on a broad range of topics related to geometric foundation models</p>
+            </div>
+
+            <div class="topics-grid">
+                <div class="topic-card">
+                    <h3><i class="fas fa-snowflake"></i> Equivariant & Invariant Architectures</h3>
+                    <ul>
+                        <li>SE(3)-equivariant foundation models</li>
+                        <li>Manifold-valued representation learning</li>
+                        <li>Group-theoretic approaches to geometric deep learning</li>
+                        <li>Multi-scale geometric representations</li>
+                        <li>Conformal and projective geometric models</li>
+                    </ul>
+                </div>
+
+                <div class="topic-card">
+                    <h3><i class="fas fa-atom"></i> Scientific Applications</h3>
+                    <ul>
+                        <li>Geometric foundation models for molecular design</li>
+                        <li>Materials discovery with symmetry-aware models</li>
+                        <li>Climate and earth science modeling</li>
+                        <li>Computational biology and protein engineering</li>
+                        <li>Neuroscience and brain connectivity analysis</li>
+                    </ul>
+                </div>
+
+                <div class="topic-card">
+                    <h3><i class="fas fa-brain"></i> Foundation Model Techniques</h3>
+                    <ul>
+                        <li>Pretraining strategies for geometric data</li>
+                        <li>Transfer learning across geometric domains</li>
+                        <li>Parameter-efficient fine-tuning of geometric models</li>
+                        <li>Sparse and efficient geometric attention</li>
+                        <li>Self-supervised learning with geometric constraints</li>
+                    </ul>
+                </div>
+
+                <div class="topic-card">
+                    <h3><i class="fas fa-project-diagram"></i> Graph & Mesh Foundation Models</h3>
+                    <ul>
+                        <li>Large-scale graph foundation models</li>
+                        <li>Mesh transformers and geometric neural networks</li>
+                        <li>Heterogeneous geometric data fusion</li>
+                        <li>Dynamic and temporal geometric modeling</li>
+                        <li>Scalable inference for geometric foundation models</li>
+                    </ul>
+                </div>
+
+                <div class="topic-card">
+                    <h3><i class="fas fa-balance-scale"></i> Evaluation & Benchmarking</h3>
+                    <ul>
+                        <li>Benchmarks for geometric reasoning</li>
+                        <li>Evaluating physical plausibility in generative models</li>
+                        <li>Metrics for geometric understanding in foundation models</li>
+                        <li>Dataset curation for scientific geometry</li>
+                        <li>Fair comparison of geometric learning approaches</li>
+                    </ul>
+                </div>
+
+                <div class="topic-card">
+                    <h3><i class="fas fa-lightbulb"></i> Theory & Principles</h3>
+                    <ul>
+                        <li>Theoretical limits of geometry-agnostic foundation models</li>
+                        <li>Sample complexity with and without geometric priors</li>
+                        <li>Information-theoretic perspectives on geometric learning</li>
+                        <li>Connections between physics-informed ML and geometric DL</li>
+                        <li>Geometric perspectives on model generalization</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="submission-details">
+                <h3><i class="fas fa-clipboard-list"></i> Submission Guidelines</h3>
+                <ul style="padding-left: 2rem; margin-top: 1rem; line-height: 1.8; font-size: 1rem;">
+                    <li><strong>Paper Format:</strong> Maximum 8 pages excluding references and appendices, using ICML 2025 template</li>
+                    <li><strong>Review Process:</strong> Double-blind review by at least 3 expert reviewers from our program committee</li>
+                    <li><strong>Non-Archival:</strong> Accepted papers will be posted on the workshop website but will not appear in the official ICML proceedings, allowing resubmission to archival venues</li>
+                    <li><strong>Open Source:</strong> We encourage authors to release code and data alongside their submissions</li>
+                    <li><strong>Ethical Considerations:</strong> All submissions must include a discussion of potential societal impact and limitations</li>
+                </ul>
+                
+                <div class="important-dates">
+                    <div class="date-item">
+                        <div class="date">June 1, 2025</div>
+                        <div class="description"><span class="deadline">Abstract Submission Deadline</span></div>
+                    </div>
+                    <div class="date-item">
+                        <div class="date">June 8, 2025</div>
+                        <div class="description"><span class="deadline">Full Paper Deadline</span></div>
+                    </div>
+                    <div class="date-item">
+                        <div class="date">June 22, 2025</div>
+                        <div class="description">Author Notification</div>
+                    </div>
+                    <div class="date-item">
+                        <div class="date">June 30, 2025</div>
+                        <div class="description">Camera-ready Deadline</div>
+                    </div>
+                </div>
+                
+                <p style="margin-top: 1.5rem; font-size: 1.05rem;">
+                    <strong>Submission Portal:</strong> <a href="#" style="color: var(--accent-cyan); text-decoration: none; font-weight: 600;">https://openreview.net/group?id=geofm-icml2025</a>
+                </p>
+                
+                <button class="submit-btn">Submit Your Paper Now</button>
+            </div>
+            
+            <div class="committee-section">
+                <h3 class="committee-title">Program Committee</h3>
+                <div class="committee-grid">
+                    <div class="committee-member">
+                        <img src="照片2.0/Taco Cohen.webp" alt="Taco Cohen" class="committee-avatar">
+                        <div class="committee-name">Taco Cohen</div>
+                        <div class="committee-affiliation">Qualcomm AI Research</div>
+                    </div>
+                    <div class="committee-member">
+                        <img src="照片2.0/MaxWelling.jpg" alt="Max Welling" class="committee-avatar">
+                        <div class="committee-name">Max Welling</div>
+                        <div class="committee-affiliation">University of Amsterdam</div>
+                    </div>
+                    <div class="committee-member">
+                        <img src="照片2.0/yann-lecun.jpg" alt="Yann LeCun" class="committee-avatar">
+                        <div class="committee-name">Yann LeCun</div>
+                        <div class="committee-affiliation">New York University</div>
+                    </div>
+                    <div class="committee-member">
+                        <img src="照片2.0/Joan Bruna.jpg" alt="Joan Bruna" class="committee-avatar">
+                        <div class="committee-name">Joan Bruna</div>
+                        <div class="committee-affiliation">New York University</div>
+                    </div>
+                    <div class="committee-member">
+                        <img src="照片2.0/Stephan Mandt.jpg" alt="Stephan Mandt" class="committee-avatar">
+                        <div class="committee-name">Stephan Mandt</div>
+                        <div class="committee-affiliation">University of California, Irvine</div>
+                    </div>
+                    <div class="committee-member">
+                        <img src="照片2.0/Kilian Weinberger.jpg" alt="Kilian Weinberger" class="committee-avatar">
+                        <div class="committee-name">Kilian Weinberger</div>
+                        <div class="committee-affiliation">Cornell University</div>
+                    </div>
+                    <div class="committee-member">
+                        <img src="照片2.0/Jessica Myers.avif" alt="Jessica Myers" class="committee-avatar">
+                        <div class="committee-name">Jessica Myers</div>
+                        <div class="committee-affiliation">DeepMind</div>
+                    </div>
+                    <div class="committee-member">
+                        <img src="照片2.0/Anima Anandkumar.jpg" alt="Anima Anandkumar" class="committee-avatar">
+                        <div class="committee-name">Anima Anandkumar</div>
+                        <div class="committee-affiliation">Caltech</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                Geo<span style="color: var(--accent-cyan);">FM</span>
+            </div>
+            <p style="max-width: 800px; margin: 0 auto 1rem; line-height: 1.7;">
+                Workshop on Geometric Foundation Models @ ICML 2025. Bringing together researchers in geometric deep learning, foundation models, and scientific computing to advance AI for Science.
+            </p>
+            <div class="footer-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="speakers.html" class="nav-link">Speakers</a>
+                <a href="organizers.html" class="nav-link">Organizers</a>
+                <a href="schedule.html" class="nav-link">Schedule</a>
+                <a href="forum.html" class="nav-link">Forum</a>
+                <a href="awards.html" class="nav-link">Awards</a>
+                <a href="call-for-papers.html" class="nav-link active">Call for Papers</a>
+                <a href="register.html" class="nav-link">Register</a>
+            </div>
+            <div class="copyright">
+                &copy; 2025 GeoFM Workshop. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Page navigation initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set active navigation link based on current page
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === currentPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+            
+            // Submit button functionality
+            const submitBtn = document.querySelector('.submit-btn');
+            if (submitBtn) {
+                submitBtn.addEventListener('click', function() {
+                    alert('This would redirect to the submission portal in a production environment. For this demo, we are simulating the submission process.');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

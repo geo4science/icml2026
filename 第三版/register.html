@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | GeoFM Workshop @ ICML 2025</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #0a0d1a;
+            --primary-darker: #060912;
+            --primary-blue: #13244d;
+            --secondary-blue: #1d3a78;
+            --accent-cyan: #3dbbd3;
+            --accent-teal: #5ad8e6;
+            --light-bg: #f5f7fa;
+            --text-dark: #1a2332;
+            --text-light: #e0e6ef;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.18);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            background-color: #fafbfc;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(19, 36, 77, 0.03) 0%, rgba(10, 15, 29, 0.05) 100%);
+            z-index: -2;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            color: var(--primary-dark);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-accent {
+            color: var(--accent-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+        }
+
+        .nav-links a {
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-cyan);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-blue);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary-blue);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .section-container {
+            padding: 4rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 0.8rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--accent-cyan);
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--secondary-blue);
+            margin-top: 1rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .register-page {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .register-box {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            width: 100%;
+        }
+
+        .register-box h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-blue);
+        }
+
+        .register-description {
+            line-height: 1.8;
+            margin-bottom: 1.8rem;
+            font-size: 1.05rem;
+            color: var(--text-dark);
+        }
+
+        .register-google {
+            margin: 2rem 0;
+        }
+
+        .google-btn {
+            background: white;
+            color: #333;
+            border: 1px solid #ddd;
+            padding: 0.9rem 2rem;
+            border-radius: var(--border-radius);
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            font-weight: 600;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+            margin: 0 auto;
+        }
+
+        .google-btn:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .google-icon {
+            width: 26px;
+            height: 26px;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg') no-repeat center center;
+            background-size: contain;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .benefit-card {
+            background: rgba(19, 36, 77, 0.03);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .benefit-card:hover {
+            background: rgba(61, 187, 211, 0.1);
+            border-color: var(--accent-cyan);
+            transform: translateY(-3px);
+        }
+
+        .benefit-icon {
+            font-size: 2.2rem;
+            color: var(--accent-cyan);
+            margin-bottom: 0.8rem;
+        }
+
+        .benefit-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 0.4rem;
+        }
+
+        .benefit-description {
+            line-height: 1.6;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+
+        .important-info {
+            background: rgba(19, 36, 77, 0.05);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-top: 1.8rem;
+            text-align: left;
+            border-left: 4px solid var(--accent-cyan);
+        }
+
+        .important-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 0.8rem;
+        }
+
+        .important-list {
+            padding-left: 1.8rem;
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        .important-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-info {
+            margin-top: 2rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .contact-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 0.8rem;
+        }
+
+        .contact-details {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .contact-icon {
+            color: var(--accent-cyan);
+            font-size: 1.1rem;
+        }
+
+        .footer {
+            background: var(--primary-darker);
+            color: var(--text-light);
+            padding: 2.5rem 0 1.5rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-logo span {
+            color: var(--accent-cyan);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .copyright {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .back-link:hover {
+            color: var(--secondary-blue);
+            transform: translateX(-3px);
+        }
+
+        /* Responsive design */
+        @media (max-width: 992px) {
+            .nav-links {
+                gap: 0.6rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .section-title {
+                font-size: 1.7rem;
+            }
+            
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-details {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .content-section {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                Geo<span class="logo-accent">FM</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="speakers.html" class="nav-link">Speakers</a></li>
+                <li><a href="organizers.html" class="nav-link">Organizers</a></li>
+                <li><a href="schedule.html" class="nav-link">Schedule</a></li>
+                <li><a href="forum.html" class="nav-link">Forum</a></li>
+                <li><a href="awards.html" class="nav-link">Awards</a></li>
+                <li><a href="call-for-papers.html" class="nav-link">Call for Papers</a></li>
+                <li><a href="register.html" class="nav-link active">Register</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Register Page -->
+    <div class="content-section">
+        <div class="section-container">
+            <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+            
+            <div class="register-page">
+                <div class="register-box">
+                    <h2>Register for GeoFM Workshop</h2>
+                    <p class="register-description">
+                        Join us for the Workshop on Geometric Foundation Models at ICML 2025. Registration is free but required for attendance. By registering, you'll gain access to all workshop sessions, poster presentations, and the opportunity to network with leading researchers in geometric deep learning and foundation models.
+                    </p>
+                    
+                    <div class="benefits-grid">
+                        <div class="benefit-card">
+                            <div class="benefit-icon">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <h3 class="benefit-title">Full Workshop Access</h3>
+                            <p class="benefit-description">Attend all keynote talks, paper presentations, and panel discussions throughout the day.</p>
+                        </div>
+                        
+                        <div class="benefit-card">
+                            <div class="benefit-icon">
+                                <i class="fas fa-coffee"></i>
+                            </div>
+                            <h3 class="benefit-title">Networking</h3>
+                            <p class="benefit-description">Connect with researchers during coffee breaks, lunch, and dedicated poster sessions.</p>
+                        </div>
+                        
+                        <div class="benefit-card">
+                            <div class="benefit-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <h3 class="benefit-title">Workshop Proceedings</h3>
+                            <p class="benefit-description">Access to all accepted papers and presentation slides after the workshop.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="register-google">
+                        <button class="google-btn">
+                            <div class="google-icon"></div>
+                            Sign in with Google to Register
+                        </button>
+                    </div>
+                    
+                    <p style="font-size: 0.9rem; color: var(--secondary-blue); margin-top: 1.2rem;">
+                        By registering, you agree to our <a href="#" style="color: var(--accent-cyan); text-decoration: underline;">Privacy Policy</a> and <a href="#" style="color: var(--accent-cyan); text-decoration: underline;">Code of Conduct</a>. Your information will only be used for workshop communications and planning purposes.
+                    </p>
+                    
+                    <div class="important-info">
+                        <h3 class="important-title">Important Registration Notes</h3>
+                        <ul class="important-list">
+                            <li>This workshop registration is separate from ICML 2025 conference registration. You must be registered for ICML 2025 to attend this workshop.</li>
+                            <li>Registration is limited to the first 200 participants due to venue capacity constraints.</li>
+                            <li>Registered participants will receive a confirmation email with additional details one week before the workshop.</li>
+                            <li>Cancellations must be submitted at least 48 hours before the workshop to free up your spot for others.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="contact-info">
+                        <h3 class="contact-title">Questions?</h3>
+                        <div class="contact-details">
+                            <div class="contact-item">
+                                <i class="fas fa-envelope contact-icon"></i>
+                                <span>register@geofm-workshop.org</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fab fa-twitter contact-icon"></i>
+                                <span>@GeoFM_Workshop</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                Geo<span style="color: var(--accent-cyan);">FM</span>
+            </div>
+            <p style="max-width: 800px; margin: 0 auto 1rem; line-height: 1.7;">
+                Workshop on Geometric Foundation Models @ ICML 2025. Bringing together researchers in geometric deep learning, foundation models, and scientific computing to advance AI for Science.
+            </p>
+            <div class="footer-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="speakers.html" class="nav-link">Speakers</a>
+                <a href="organizers.html" class="nav-link">Organizers</a>
+                <a href="schedule.html" class="nav-link">Schedule</a>
+                <a href="forum.html" class="nav-link">Forum</a>
+                <a href="awards.html" class="nav-link">Awards</a>
+                <a href="call-for-papers.html" class="nav-link">Call for Papers</a>
+                <a href="register.html" class="nav-link active">Register</a>
+            </div>
+            <div class="copyright">
+                &copy; 2025 GeoFM Workshop. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set active navigation link based on current page
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === currentPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+            
+            // Google sign-in simulation
+            const googleBtn = document.querySelector('.google-btn');
+            if (googleBtn) {
+                googleBtn.addEventListener('click', function() {
+                    const confirmed = confirm('This would initiate Google OAuth flow in a production environment. For this demo, would you like to simulate a successful registration?');
+                    
+                    if (confirmed) {
+                        alert('Registration successful! You will receive a confirmation email shortly with workshop details and access information.');
+                        // In a real implementation, this would trigger OAuth flow and registration process
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

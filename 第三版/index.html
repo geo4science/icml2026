@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GeoFM | Workshop on Geometric Foundation Models @ ICML 2025</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <style>
+      :root {
+        --primary-dark: #0a0d1a;
+        --primary-darker: #060912;
+        --primary-blue: #13244d;
+        --secondary-blue: #1d3a78;
+        --accent-cyan: #3dbbd3;
+        --accent-teal: #5ad8e6;
+        --light-bg: #f5f7fa;
+        --text-dark: #1a2332;
+        --text-light: #e0e6ef;
+        --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
+        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+        --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.18);
+        --border-radius: 12px;
+        --transition: all 0.3s ease;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        color: var(--text-dark);
+        background: var(--light-bg);
+        overflow-x: hidden;
+        position: relative;
+      }
+
+      .header {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        color: var(--primary-dark);
+        padding: 1rem 0;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+      }
+
+      .nav-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .logo-accent {
+        color: var(--accent-cyan);
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 1rem;
+      }
+
+      .nav-links a {
+        color: var(--primary-dark);
+        text-decoration: none;
+        font-weight: 600;
+        padding: 0.5rem 0;
+        position: relative;
+        transition: var(--transition);
+        font-size: 0.95rem;
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--accent-cyan);
+        transition: var(--transition);
+      }
+
+      .nav-links a:hover {
+        color: var(--primary-blue);
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      .nav-links a.active {
+        color: var(--primary-blue);
+      }
+
+      .nav-links a.active::after {
+        width: 100%;
+      }
+
+      .hero {
+        padding: 5rem 0 3rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(
+          135deg,
+          rgba(19, 36, 77, 0.05) 0%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        min-height: 500px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .hero-content {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        position: relative;
+        z-index: 10;
+      }
+
+      .hero h1 {
+        font-size: 3.8rem;
+        font-weight: 800;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+        color: var(--primary-dark);
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 1s ease-out forwards;
+      }
+
+      .hero-subtitle {
+        font-size: 1.6rem;
+        font-weight: 500;
+        margin-bottom: 2rem;
+        color: var(--secondary-blue);
+        line-height: 1.5;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 1s ease-out 0.2s forwards;
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .geometric-pattern {
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        opacity: 0.08;
+        z-index: 1;
+      }
+
+      .pattern-1 {
+        top: -100px;
+        right: 10%;
+        transform: rotate(15deg);
+        opacity: 0;
+        animation: fadeIn 3s ease-in-out 0.5s forwards;
+      }
+
+      .pattern-2 {
+        bottom: -80px;
+        left: 5%;
+        transform: rotate(-10deg);
+        opacity: 0;
+        animation: fadeIn 3s ease-in-out 0.7s forwards;
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 0.08;
+        }
+      }
+
+      .content-section {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      .section-container {
+        padding: 4rem 0;
+        position: relative;
+      }
+
+      .section-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+        position: relative;
+        z-index: 2;
+      }
+
+      .section-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary-blue);
+        margin-bottom: 0.8rem;
+        position: relative;
+        display: inline-block;
+      }
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background: var(--accent-cyan);
+        border-radius: 2px;
+      }
+
+      .section-subtitle {
+        font-size: 1.1rem;
+        color: var(--secondary-blue);
+        margin-top: 1rem;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .abstract-section {
+        background: white;
+        border-radius: var(--border-radius);
+        padding: 2rem;
+        box-shadow: var(--shadow-md);
+        position: relative;
+        z-index: 2;
+        margin-bottom: 3rem;
+        border-left: 5px solid var(--accent-cyan);
+      }
+
+      .abstract-title {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--primary-blue);
+        margin-bottom: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+
+      .abstract-title i {
+        color: var(--accent-cyan);
+      }
+
+      .abstract-content {
+        line-height: 1.8;
+        font-size: 1.2rem;
+        color: var(--text-dark);
+      }
+
+      .people-section {
+        position: relative;
+        z-index: 2;
+      }
+
+      .people-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 1.8rem;
+      }
+
+      .person-card {
+        background: white;
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+        transition: var(--transition);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .person-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .person-header {
+        padding: 1.2rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        text-align: center;
+      }
+
+      .person-avatar {
+        width: 80px;
+        height: 80px;
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: center;
+        border: 2px solid var(--accent-cyan);
+        background: var(--light-bg);
+        display: block;
+        margin: 0 auto 1rem;
+      }
+
+      .person-info h3 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--primary-blue);
+        margin-bottom: 0.2rem;
+        text-align: center;
+      }
+
+      .person-info .role {
+        color: var(--accent-cyan);
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-align: center;
+      }
+
+      .person-body {
+        padding: 1.5rem;
+        flex-grow: 1;
+      }
+
+      .person-body p {
+        line-height: 1.7;
+        margin-bottom: 0;
+        font-size: 1rem;
+        color: var(--text-dark);
+        text-align: left;
+      }
+
+      .person-footer {
+        padding: 0 1.2rem 1.2rem;
+        display: flex;
+        justify-content: space-between;
+        gap: 0.8rem;
+      }
+
+      .social-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--primary-blue);
+        color: white;
+        transition: var(--transition);
+      }
+
+      .social-link:hover {
+        background: var(--accent-cyan);
+        color: white;
+        transform: scale(1.1);
+      }
+
+      .sponsors-section {
+        background: linear-gradient(
+          135deg,
+          rgba(19, 36, 77, 0.08),
+          rgba(10, 15, 29, 0.05)
+        );
+        padding: 3.5rem 0;
+        margin-top: 3rem;
+        position: relative;
+        z-index: 2;
+        border-radius: var(--border-radius);
+      }
+
+      .sponsor-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 2rem;
+        justify-items: center;
+        margin-top: 2rem;
+      }
+
+      .sponsor-logo {
+        height: 60px;
+        opacity: 0.85;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .sponsor-logo:hover {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+
+      .footer {
+        background: var(--primary-darker);
+        color: var(--text-light);
+        padding: 2.5rem 0 1.5rem;
+        text-align: center;
+        margin-top: 3rem;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      .footer-logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .footer-logo span {
+        color: var(--accent-cyan);
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 1.2rem;
+        margin: 1rem 0;
+        flex-wrap: wrap;
+      }
+
+      .footer-links a {
+        color: var(--text-light);
+        text-decoration: none;
+        transition: var(--transition);
+        font-size: 0.95rem;
+      }
+
+      .footer-links a:hover {
+        color: var(--accent-cyan);
+      }
+
+      .copyright {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      /* Responsive design */
+      @media (max-width: 992px) {
+        .hero h1 {
+          font-size: 3rem;
+        }
+
+        .hero-subtitle {
+          font-size: 1.4rem;
+        }
+
+        .nav-links {
+          gap: 0.6rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+
+        .hero h1 {
+          font-size: 2.4rem;
+        }
+
+        .hero-subtitle {
+          font-size: 1.2rem;
+        }
+
+        .section-title {
+          font-size: 1.7rem;
+        }
+
+        .people-grid {
+          grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        }
+
+        .content-section {
+          padding: 0 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header & Navigation -->
+    <header class="header">
+      <div class="nav-container">
+        <div class="logo">Geo<span class="logo-accent">FM</span></div>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link active">Home</a></li>
+          <li><a href="speakers.html" class="nav-link">Speakers</a></li>
+          <li><a href="organizers.html" class="nav-link">Organizers</a></li>
+          <li><a href="schedule.html" class="nav-link">Schedule</a></li>
+          <li><a href="forum.html" class="nav-link">Forum</a></li>
+          <li><a href="awards.html" class="nav-link">Awards</a></li>
+          <li>
+            <a href="call-for-papers.html" class="nav-link">Call for Papers</a>
+          </li>
+          <li><a href="register.html" class="nav-link">Register</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <!-- Hero Section with Animated Title -->
+    <section
+      class="hero"
+      style="position: relative; width: 100%; padding-left: 0; padding-right: 0"
+    >
+      <div class="geometric-pattern pattern-1">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M40,10 L160,10 L160,190 L40,190 Z"
+            fill="none"
+            stroke="#13244d"
+            stroke-width="1"
+            opacity="0.3"
+          />
+          <path
+            d="M60,30 L140,30 L140,170 L60,170 Z"
+            fill="none"
+            stroke="#13244d"
+            stroke-width="1"
+            opacity="0.3"
+          />
+          <circle
+            cx="100"
+            cy="100"
+            r="30"
+            fill="none"
+            stroke="#3dbbd3"
+            stroke-width="1"
+            opacity="0.5"
+          />
+        </svg>
+      </div>
+      <div class="geometric-pattern pattern-2">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <polygon
+            points="100,10 190,70 160,180 40,180 10,70"
+            fill="none"
+            stroke="#13244d"
+            stroke-width="1"
+            opacity="0.3"
+          />
+          <path
+            d="M100,50 L170,90 L140,160 L60,160 L30,90 Z"
+            fill="none"
+            stroke="#3dbbd3"
+            stroke-width="1"
+            opacity="0.5"
+          />
+        </svg>
+      </div>
+
+      <div class="hero-content">
+        <div
+          style="
+            position: absolute;
+            left: -45%;
+            top: 90%;
+            transform: translateY(-50%);
+          "
+        >
+          <img
+            src="riemann_geometry - 副本.svg"
+            alt="几何图形"
+            style="width: 350px; height: auto; max-width: 100%; opacity: 0.75"
+          />
+        </div>
+        <h1>Workshop on Geometric Foundation Models</h1>
+        <p class="hero-subtitle">
+          Unifying Geometric Deep Learning and Foundation Models for Scientific
+          Discovery
+        </p>
+        <div
+          style="
+            position: absolute;
+            right: -37%;
+            top: 90%;
+            transform: translateY(-50%) rotate(110deg);
+          "
+        >
+          <svg
+            viewBox="0 0 400 350"
+            xmlns="http://www.w3.org/2000/svg"
+            style="width: 300px; height: auto"
+          >
+            <style>
+              .node {
+                fill: var(--accent-cyan);
+              }
+              .line-solid {
+                stroke: #666666;
+                stroke-width: 4;
+                stroke-linecap: round;
+              }
+              .line-dashed {
+                stroke: #999999;
+                stroke-width: 2.5;
+                stroke-dasharray: 8, 6;
+                stroke-linecap: round;
+              }
+              .shade-face {
+                fill: #bfeaf5;
+                opacity: 0.5;
+                stroke: none;
+              }
+            </style>
+            <polygon points="150,50 330,170 300,300" class="shade-face" />
+            <line x1="150" y1="50" x2="40" y2="300" class="line-dashed" />
+            <line x1="40" y1="300" x2="300" y2="300" class="line-dashed" />
+            <line x1="150" y1="50" x2="330" y2="170" class="line-dashed" />
+            <line x1="330" y1="170" x2="300" y2="300" class="line-dashed" />
+            <line x1="150" y1="50" x2="300" y2="300" class="line-dashed" />
+            <line x1="40" y1="300" x2="330" y2="170" class="line-dashed" />
+            <line x1="150" y1="50" x2="190" y2="180" class="line-solid" />
+            <line x1="330" y1="170" x2="190" y2="180" class="line-solid" />
+            <line x1="40" y1="300" x2="190" y2="180" class="line-solid" />
+            <line x1="300" y1="300" x2="190" y2="180" class="line-solid" />
+            <circle cx="330" cy="170" r="22" class="node" />
+            <circle cx="150" cy="50" r="22" class="node" />
+            <circle cx="40" cy="300" r="22" class="node" />
+            <circle cx="300" cy="300" r="22" class="node" />
+            <circle cx="190" cy="180" r="22" class="node" />
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <div class="content-section">
+      <div class="section-container">
+        <div class="section-header">
+          <h2 class="section-title">Workshop Abstract</h2>
+          <p class="section-subtitle">
+            Exploring the intersection of geometric deep learning and foundation
+            models for scientific applications
+          </p>
+        </div>
+
+        <div class="abstract-section">
+          <div class="abstract-content">
+            <p>
+              The motivation for this workshop builds on the rapid progress of
+              foundation models and their growing impact on AI4Science.
+              Geometric structures, such as graphs in biochemical molecules,
+              helical arrangements in proteins and DNA, and crystalline
+              lattices, are central to many high-impact applications in the life
+              and material sciences. While recent advances, including AlphaFold3
+              and early adaptations of large language models to scientific data,
+              demonstrate the promise of this direction, foundation models for
+              geometric structures remain at an early stage. In particular, core
+              geometric principles, most notably symmetry-aware modeling through
+              equivariant and conformal representations, are not yet
+              systematically leveraged, leaving fundamental questions around
+              generality, data efficiency, interpretability, and trustworthiness
+              unresolved.
+            </p>
+          </div>
+        </div>
+
+        <div class="people-section">
+          <div class="section-header">
+            <h2 class="section-title">Workshop Organizers</h2>
+            <p class="section-subtitle">
+              Our distinguished organizing committee bringing together experts
+              across geometry and foundation models
+            </p>
+          </div>
+
+          <div class="people-grid">
+            <div class="person-card">
+              <div class="person-header">
+                <img
+                  src="照片/Chunchen Wang.png"
+                  alt="Chunchen Wang"
+                  class="person-avatar"
+                />
+                <div class="person-info">
+                  <h3>Chunchen Wang</h3>
+                  <div class="role">Ph.D. Student, MBZUAI</div>
+                </div>
+              </div>
+              <div class="person-body">
+                <p>
+                  MBZUAI's PhD researcher focusing on graph data mining and
+                  machine learning algorithms.
+                </p>
+              </div>
+              <div class="person-footer">
+                <a
+                  href="https://scholar.google.com/citations?user=4pCIcsUAAAAJ"
+                  class="social-link"
+                  target="_blank"
+                >
+                  <i class="fas fa-graduation-cap"></i>
+                </a>
+              </div>
+            </div>
+
+            <div class="person-card">
+              <div class="person-header">
+                <img
+                  src="照片/Karish Grove.jpg"
+                  alt="Karish Grover"
+                  class="person-avatar"
+                />
+                <div class="person-info">
+                  <h3>Karish Grover</h3>
+                  <div class="role">Ph.D. Student, CMU</div>
+                </div>
+              </div>
+              <div class="person-body">
+                <p>
+                  Researching machine learning systems and graph neural networks
+                  at Carnegie Mellon University.
+                </p>
+              </div>
+              <div class="person-footer">
+                <a
+                  href="https://karish-grover.github.io/"
+                  class="social-link"
+                  target="_blank"
+                >
+                  <i class="fas fa-link"></i>
+                </a>
+              </div>
+            </div>
+
+            <div class="person-card">
+              <div class="person-header">
+                <img
+                  src="照片/Pietro Liò.png"
+                  alt="Pietro Liò"
+                  class="person-avatar"
+                />
+                <div class="person-info">
+                  <h3>Pietro Liò</h3>
+                  <div class="role">Professor, University of Cambridge</div>
+                </div>
+              </div>
+              <div class="person-body">
+                <p>
+                  Expert in AI and bioinformatics focusing on GNNs and
+                  multimodal learning for computational biology.
+                </p>
+              </div>
+              <div class="person-footer">
+                <a
+                  href="https://www.cl.cam.ac.uk/~pl219/"
+                  class="social-link"
+                  target="_blank"
+                >
+                  <i class="fas fa-link"></i>
+                </a>
+              </div>
+            </div>
+
+            <div class="person-card">
+              <div class="person-header">
+                <img
+                  src="照片/Philip S. Yu.avif"
+                  alt="Philip S. Yu"
+                  class="person-avatar"
+                />
+                <div class="person-info">
+                  <h3>Philip S. Yu</h3>
+                  <div class="role">Distinguished Professor, UIC</div>
+                </div>
+              </div>
+              <div class="person-body">
+                <p>
+                  Titan in data mining and machine learning, ACM/IEEE Fellow,
+                  recipient of SIGKDD Innovation Award.
+                </p>
+              </div>
+              <div class="person-footer">
+                <a
+                  href="https://cs.uic.edu/profiles/philip-yu/"
+                  class="social-link"
+                  target="_blank"
+                >
+                  <i class="fas fa-link"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="people-section" style="margin-top: 3.5rem">
+          <div class="section-header">
+            <h2 class="section-title">Keynote Speakers</h2>
+            <p class="section-subtitle">
+              Our invited speakers shaping the future of geometric foundation
+              models
+            </p>
+          </div>
+
+          <div class="people-grid">
+            <div class="person-card">
+              <div class="person-header">
+                <img
+                  src="照片/Yuanqi Du.jpg"
+                  alt="Yuanqi Du"
+                  class="person-avatar"
+                  style="object-position: center 30%"
+                />
+                <div class="person-info">
+                  <h3>Yuanqi Du</h3>
+                  <div class="role">Ph.D. Student, Cornell University</div>
+                </div>
+              </div>
+              <div class="person-body">
+                <p>
+                  Researching geometric deep learning and generative models for
+                  molecular discovery and materials design.
+                </p>
+              </div>
+              <div class="person-footer">
+                <a
+                  href="https://yuanqidu.github.io/"
+                  class="social-link"
+                  target="_blank"
+                >
+                  <i class="fas fa-link"></i>
+                </a>
+              </div>
+            </div>
+
+            <div class="person-card">
+              <div class="person-header">
+                <img
+                  src="照片/Jianan Zhao.jpg"
+                  alt="Jianan Zhao"
+                  class="person-avatar"
+                  style="object-position: center 10%"
+                />
+                <div class="person-info">
+                  <h3>Jianan Zhao</h3>
+                  <div class="role">
+                    Ph.D. Student, Mila/Université de Montréal
+                  </div>
+                </div>
+              </div>
+              <div class="person-body">
+                <p>
+                  Focused on graph representation learning and geometric deep
+                  learning for knowledge reasoning.
+                </p>
+              </div>
+              <div class="person-footer">
+                <a
+                  href="https://andyjzhao.github.io/"
+                  class="social-link"
+                  target="_blank"
+                >
+                  <i class="fas fa-link"></i>
+                </a>
+              </div>
+            </div>
+
+            <div class="person-card">
+              <div class="person-header">
+                <img
+                  src="各前部分人物照片/Christos Faloutsos.jpg"
+                  alt="Christos Faloutsos"
+                  class="person-avatar"
+                  style="object-position: center 20%"
+                />
+                <div class="person-info">
+                  <h3>Christos Faloutsos</h3>
+                  <div class="role">Fredkin University Professor, CMU</div>
+                </div>
+              </div>
+              <div class="person-body">
+                <p>
+                  Legendary figure in data mining focusing on large-scale graph
+                  mining and anomaly detection.
+                </p>
+              </div>
+              <div class="person-footer">
+                <a
+                  href="https://cs.cmu.edu/~christos"
+                  class="social-link"
+                  target="_blank"
+                >
+                  <i class="fas fa-link"></i>
+                </a>
+              </div>
+            </div>
+
+            <div class="person-card">
+              <div class="person-header">
+                <img
+                  src="各前部分人物照片/Le-Song.jpg"
+                  alt="Le Song"
+                  class="person-avatar"
+                />
+                <div class="person-info">
+                  <h3>Le Song</h3>
+                  <div class="role">Professor, MBZUAI / CTO, GenBio AI</div>
+                </div>
+              </div>
+              <div class="person-body">
+                <p>
+                  Leader in AI-driven drug design, building foundation models
+                  for geometric scientific data.
+                </p>
+              </div>
+              <div class="person-footer">
+                <a
+                  href="https://dasongle.github.io/"
+                  class="social-link"
+                  target="_blank"
+                >
+                  <i class="fas fa-link"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sponsors-section">
+        <div class="section-header">
+          <h2 class="section-title" style="color: var(--primary-dark)">
+            Sponsors
+          </h2>
+          <p class="section-subtitle" style="color: var(--secondary-blue)">
+            Our generous supporters
+          </p>
+        </div>
+
+        <div class="sponsor-grid">
+          <a href="https://github.com/XeonLabs" target="_blank" class="sponsor-logo" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+            <img src="../image.png" alt="XeonLabs Logo" style="height: 60px; width: auto;" />
+            <div
+              style="
+                font-size: 1.5rem;
+                font-weight: bold;
+                color: var(--primary-blue);
+              "
+            >
+              XeonLabs
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-logo">
+          Geo<span style="color: var(--accent-cyan)">FM</span>
+        </div>
+        <p style="max-width: 800px; margin: 0 auto 1rem; line-height: 1.7">
+          Workshop on Geometric Foundation Models @ ICML 2025. Bringing together
+          researchers in geometric deep learning, foundation models, and
+          scientific computing to advance AI for Science.
+        </p>
+        <div class="footer-links">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="speakers.html" class="nav-link">Speakers</a>
+          <a href="organizers.html" class="nav-link">Organizers</a>
+          <a href="schedule.html" class="nav-link">Schedule</a>
+          <a href="forum.html" class="nav-link">Forum</a>
+          <a href="awards.html" class="nav-link">Awards</a>
+          <a href="call-for-papers.html" class="nav-link">Call for Papers</a>
+          <a href="register.html" class="nav-link">Register</a>
+        </div>
+        <div class="copyright">
+          &copy; 2025 GeoFM Workshop. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Page navigation initialization
+      document.addEventListener("DOMContentLoaded", function () {
+        // Set active navigation link based on current page
+        const currentPage =
+          window.location.pathname.split("/").pop() || "index.html";
+        const navLinks = document.querySelectorAll(".nav-link");
+
+        navLinks.forEach((link) => {
+          const href = link.getAttribute("href");
+          if (href === currentPage) {
+            link.classList.add("active");
+          } else {
+            link.classList.remove("active");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neural Network</title>
+    <style>
+        :root {
+            --primary-dark: #0a0d1a;
+            --primary-darker: #060912;
+            --primary-blue: #13244d;
+            --secondary-blue: #1d3a78;
+            --accent-cyan: #3dbbd3;
+            --accent-teal: #5ad8e6;
+            --light-bg: #f5f7fa;
+            --text-dark: #1a2332;
+            --text-light: #e0e6ef;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.18);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #fafbfc;
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at 30% 30%, rgba(26, 43, 95, 0.03) 0%, rgba(10, 15, 29, 0.05) 100%);
+        }
+        canvas {
+            border: none;
+            background-color: transparent;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="neuralNetwork" width="1000" height="700"></canvas>
+    <script>
+        const canvas = document.getElementById('neuralNetwork');
+        const ctx = canvas.getContext('2d');
+        
+        // 神经网络配置
+        const networkConfig = {
+            layers: [3, 5, 6, 4, 2], // 更复杂的网络结构
+            neuronRadius: 18,
+            layerSpacing: 150,
+            neuronSpacing: 60,
+            colors: {
+                input: 'var(--accent-cyan)',
+                hidden: 'var(--secondary-blue)',
+                output: 'var(--primary-blue)',
+                connection: 'rgba(51, 51, 51, 0.2)',
+                connectionActive: 'var(--accent-teal)',
+                background: 'transparent'
+            }
+        };
+        
+        // 计算神经元位置
+        function calculateNeuronPositions() {
+            const positions = [];
+            
+            for (let layerIndex = 0; layerIndex < networkConfig.layers.length; layerIndex++) {
+                const layerNeurons = networkConfig.layers[layerIndex];
+                const layerPositions = [];
+                
+                // 计算该层神经元的Y坐标范围
+                const totalHeight = (layerNeurons - 1) * networkConfig.neuronSpacing;
+                const startY = (canvas.height - totalHeight) / 2;
+                
+                for (let neuronIndex = 0; neuronIndex < layerNeurons; neuronIndex++) {
+                    const x = 100 + layerIndex * networkConfig.layerSpacing;
+                    const y = startY + neuronIndex * networkConfig.neuronSpacing;
+                    
+                    layerPositions.push({ x, y });
+                }
+                
+                positions.push(layerPositions);
+            }
+            
+            return positions;
+        }
+        
+        // 绘制单个神经元
+        function drawNeuron(x, y, color) {
+            // 绘制神经元外圈发光效果
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = color;
+            
+            // 绘制神经元外圈
+            ctx.beginPath();
+            ctx.arc(x, y, networkConfig.neuronRadius, 0, Math.PI * 2);
+            ctx.fillStyle = color;
+            ctx.fill();
+            
+            // 绘制神经元内圈
+            ctx.beginPath();
+            ctx.arc(x, y, networkConfig.neuronRadius * 0.6, 0, Math.PI * 2);
+            ctx.fillStyle = 'white';
+            ctx.fill();
+            
+            // 绘制神经元中心亮点
+            ctx.beginPath();
+            ctx.arc(x, y, networkConfig.neuronRadius * 0.2, 0, Math.PI * 2);
+            ctx.fillStyle = color;
+            ctx.fill();
+            
+            // 重置阴影效果
+            ctx.shadowBlur = 0;
+        }
+        
+        // 绘制连接
+        function drawConnections(positions) {
+            for (let layerIndex = 0; layerIndex < positions.length - 1; layerIndex++) {
+                const currentLayer = positions[layerIndex];
+                const nextLayer = positions[layerIndex + 1];
+                
+                for (let i = 0; i < currentLayer.length; i++) {
+                    for (let j = 0; j < nextLayer.length; j++) {
+                        const start = currentLayer[i];
+                        const end = nextLayer[j];
+                        
+                        // 创建渐变
+                        const gradient = ctx.createLinearGradient(start.x, start.y, end.x, end.y);
+                        gradient.addColorStop(0, networkConfig.colors.connectionActive);
+                        gradient.addColorStop(1, networkConfig.colors.connection);
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(start.x + networkConfig.neuronRadius, start.y);
+                        ctx.lineTo(end.x - networkConfig.neuronRadius, end.y);
+                        ctx.strokeStyle = gradient;
+                        ctx.lineWidth = 1.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+        
+        // 动画相关变量
+        let animationFrameId;
+        let animationProgress = 0;
+        
+        // 绘制整个神经网络
+        function drawNetwork() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // 计算旋转角度
+            const rotationAngle = animationProgress * 0.02;
+            
+            const positions = calculateNeuronPositions();
+            
+            // 1. 绘制连接
+            drawConnections(positions);
+            
+            // 2. 绘制神经元
+            for (let layerIndex = 0; layerIndex < positions.length; layerIndex++) {
+                const layer = positions[layerIndex];
+                let color;
+                
+                if (layerIndex === 0) {
+                    color = networkConfig.colors.input;
+                } else if (layerIndex === positions.length - 1) {
+                    color = networkConfig.colors.output;
+                } else {
+                    color = networkConfig.colors.hidden;
+                }
+                
+                for (let neuronIndex = 0; neuronIndex < layer.length; neuronIndex++) {
+                    const neuron = layer[neuronIndex];
+                    // 轻微的上下浮动动画
+                    const yOffset = Math.sin(animationProgress * 0.05 + layerIndex * 0.5 + neuronIndex) * 2;
+                    drawNeuron(neuron.x, neuron.y + yOffset, color);
+                }
+            }
+            
+            // 更新动画进度
+            animationProgress++;
+            
+            // 请求下一帧
+            animationFrameId = requestAnimationFrame(drawNetwork);
+        }
+        
+        // 初始化绘制和动画
+        drawNetwork();
+    </script>
+</body>
+</html>

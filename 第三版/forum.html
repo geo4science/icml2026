@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum | GeoFM Workshop @ ICML 2025</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #0a0d1a;
+            --primary-darker: #060912;
+            --primary-blue: #13244d;
+            --secondary-blue: #1d3a78;
+            --accent-cyan: #3dbbd3;
+            --accent-teal: #5ad8e6;
+            --light-bg: #f5f7fa;
+            --text-dark: #1a2332;
+            --text-light: #e0e6ef;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.18);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            background-color: #fafbfc;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(19, 36, 77, 0.03) 0%, rgba(10, 15, 29, 0.05) 100%);
+            z-index: -2;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            color: var(--primary-dark);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-accent {
+            color: var(--accent-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+        }
+
+        .nav-links a {
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-cyan);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-blue);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary-blue);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .section-container {
+            padding: 4rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 0.8rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--accent-cyan);
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--secondary-blue);
+            margin-top: 1rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .forum-question {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .forum-question::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M20,50 L80,50 M50,20 L50,80" stroke="%233dbbd3" stroke-width="0.5" fill="none" opacity="0.2"/></svg>');
+            background-size: 40px 40px;
+            z-index: 0;
+        }
+
+        .forum-question h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+        }
+
+        .forum-question p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.7;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        .opinions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .opinion-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.8rem;
+            box-shadow: var(--shadow-md);
+            border-top: 4px solid var(--accent-cyan);
+            transition: var(--transition);
+        }
+
+        .opinion-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .opinion-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .opinion-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-cyan);
+        }
+
+        .opinion-author h4 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 0.2rem;
+        }
+
+        .opinion-author .affiliation {
+            font-size: 0.95rem;
+            color: var(--secondary-blue);
+        }
+
+        .opinion-content {
+            line-height: 1.7;
+            font-size: 1rem;
+            font-style: italic;
+            color: var(--text-dark);
+        }
+
+        .comment-section {
+            margin-top: 3rem;
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .comment-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .login-required {
+            text-align: center;
+            padding: 1.8rem;
+            background: rgba(19, 36, 77, 0.03);
+            border-radius: var(--border-radius);
+        }
+
+        .login-required p {
+            margin-bottom: 1.2rem;
+            font-size: 1rem;
+        }
+
+        .google-btn {
+            background: white;
+            color: #333;
+            border: 1px solid #ddd;
+            padding: 0.7rem 1.5rem;
+            border-radius: var(--border-radius);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin: 0 auto;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .google-btn:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .google-icon {
+            width: 24px;
+            height: 24px;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg') no-repeat center center;
+            background-size: contain;
+        }
+
+        .comment-input {
+            width: 100%;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(0,0,0,0.1);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 100px;
+            transition: var(--transition);
+        }
+
+        .comment-input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 3px rgba(61, 187, 211, 0.2);
+        }
+
+        .comment-options {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .checkbox-group input {
+            width: 16px;
+            height: 16px;
+        }
+
+        .submit-btn {
+            background: var(--accent-cyan);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.8rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .submit-btn:hover {
+            background: #2ea5b7;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 1.2rem;
+        }
+
+        .comment-card {
+            background: rgba(19, 36, 77, 0.02);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            border-left: 3px solid var(--accent-teal);
+            transition: var(--transition);
+        }
+
+        .comment-card:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+            color: var(--secondary-blue);
+        }
+
+        .comment-author {
+            font-weight: 700;
+            color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .comment-anonymous {
+            background: var(--secondary-blue);
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .comment-content {
+            line-height: 1.6;
+            font-size: 1rem;
+            color: var(--text-dark);
+        }
+
+        .comment-date {
+            color: var(--text-dark);
+            opacity: 0.7;
+        }
+
+        .footer {
+            background: var(--primary-darker);
+            color: var(--text-light);
+            padding: 2.5rem 0 1.5rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-logo span {
+            color: var(--accent-cyan);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .copyright {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .back-link:hover {
+            color: var(--secondary-blue);
+            transform: translateX(-3px);
+        }
+
+        /* Responsive design */
+        @media (max-width: 992px) {
+            .nav-links {
+                gap: 0.6rem;
+            }
+            
+            .forum-question h2 {
+                font-size: 1.8rem;
+            }
+            
+            .forum-question p {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .forum-question {
+                padding: 1.8rem;
+            }
+            
+            .forum-question h2 {
+                font-size: 1.6rem;
+            }
+            
+            .section-title {
+                font-size: 1.7rem;
+            }
+            
+            .opinions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .content-section {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                Geo<span class="logo-accent">FM</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="speakers.html" class="nav-link">Speakers</a></li>
+                <li><a href="organizers.html" class="nav-link">Organizers</a></li>
+                <li><a href="schedule.html" class="nav-link">Schedule</a></li>
+                <li><a href="forum.html" class="nav-link active">Forum</a></li>
+                <li><a href="awards.html" class="nav-link">Awards</a></li>
+                <li><a href="call-for-papers.html" class="nav-link">Call for Papers</a></li>
+                <li><a href="register.html" class="nav-link">Register</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Forum Page -->
+    <div class="content-section">
+        <div class="section-container">
+            <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+            
+            <div class="forum-question">
+                <h2>Are Geometric Priors Really Necessary?</h2>
+                <p>Join our community discussion on the fundamental role of geometric priors in foundation models for scientific applications. Do explicit geometric constraints lead to better generalization, data efficiency, and interpretability, or can large-scale training alone discover these principles implicitly?</p>
+            </div>
+
+            <div class="section-header">
+                <h2 class="section-title">Expert Opinions</h2>
+                <p class="section-subtitle">Perspectives from leading researchers in the field</p>
+            </div>
+
+            <div class="opinions-grid">
+                <div class="opinion-card">
+                    <div class="opinion-header">
+                        <img src="各前部分人物照片/Christos Faloutsos.jpg" alt="Christos Faloutsos" class="opinion-avatar" style="object-position: center 20%;">
+                        <div class="opinion-author">
+                            <h4>Christos Faloutsos</h4>
+                            <div class="affiliation">CMU</div>
+                        </div>
+                    </div>
+                    <div class="opinion-content">
+                        "Geometric priors are essential for scientific discovery. In my decades of experience with graph mining, models that respect the inherent symmetries and constraints of scientific data consistently outperform generic approaches. Foundation models must incorporate domain-specific geometry to achieve true understanding rather than mere pattern matching."
+                    </div>
+                </div>
+
+                <div class="opinion-card">
+                    <div class="opinion-header">
+                        <img src="各前部分人物照片/Le-Song.jpg" alt="Le Song" class="opinion-avatar">
+                        <div class="opinion-author">
+                            <h4>Le Song</h4>
+                            <div class="affiliation">MBZUAI / GenBio AI</div>
+                        </div>
+                    </div>
+                    <div class="opinion-content">
+                        "While large-scale training can discover some geometric principles implicitly, explicit geometric constraints dramatically improve data efficiency and generalization. In drug discovery, where data is scarce and expensive, incorporating molecular symmetries and physical constraints is not optional—it's essential for creating models that scientists can trust."
+                    </div>
+                </div>
+
+                <div class="opinion-card">
+                    <div class="opinion-header">
+                        <img src="各前部分人物照片/Marinka Zitnik.png" alt="Marinka Zitnik" class="opinion-avatar">
+                        <div class="opinion-author">
+                            <h4>Marinka Zitnik</h4>
+                            <div class="affiliation">Harvard University</div>
+                        </div>
+                    </div>
+                    <div class="opinion-content">
+                        "The most promising approach combines the best of both worlds: foundation models pretrained on vast datasets to learn implicit patterns, augmented with explicit geometric constraints for specific scientific tasks. This hybrid architecture gives us both flexibility and precision—critical for applications where errors can have real-world consequences."
+                    </div>
+                </div>
+
+                <div class="opinion-card">
+                    <div class="opinion-header">
+                        <img src="照片/Pietro Liò.png" alt="Pietro Liò" class="opinion-avatar">
+                        <div class="opinion-author">
+                            <h4>Pietro Liò</h4>
+                            <div class="affiliation">University of Cambridge</div>
+                        </div>
+                    </div>
+                    <div class="opinion-content">
+                        "Geometric priors provide the inductive bias needed to overcome data scarcity in scientific domains. Our research in computational biology shows that equivariant models can achieve remarkable performance with orders of magnitude less training data compared to their non-geometric counterparts. This efficiency is not just convenient—it's often the difference between a useful model and an impossible one."
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2 class="section-title">Join the Discussion</h2>
+                <p class="section-subtitle">Share your perspective with the GeoFM community</p>
+            </div>
+
+            <div class="comment-section">
+                <div class="login-required">
+                    <p>To participate in the discussion, please sign in with your Google account:</p>
+                    <button class="google-btn">
+                        <div class="google-icon"></div>
+                        Sign in with Google
+                    </button>
+                </div>
+
+                <div class="comment-form">
+                    <textarea class="comment-input" placeholder="Share your thoughts on the role of geometric priors in foundation models..."></textarea>
+                    <div class="comment-options">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="anonymous">
+                            <label for="anonymous">Post anonymously</label>
+                        </div>
+                        <button class="submit-btn">Submit Comment</button>
+                    </div>
+                </div>
+
+                <div class="comments-list">
+                    <div class="comment-card">
+                        <div class="comment-header">
+                            <span class="comment-author">
+                                <span class="comment-anonymous">A</span>
+                                Anonymous Researcher
+                            </span>
+                            <span class="comment-date">June 15, 2025</span>
+                        </div>
+                        <div class="comment-content">
+                            I believe geometric priors are essential for scientific applications. While today's large models can learn some geometric properties from data, they often fail to respect fundamental physical symmetries without explicit constraints. In my work on protein folding, models with SE(3) equivariance consistently outperform those without, even with the same number of parameters. The key advantage isn't just accuracy—it's the ability to generalize to unseen structures and provide physically plausible predictions.
+                        </div>
+                    </div>
+
+                    <div class="comment-card">
+                        <div class="comment-header">
+                            <span class="comment-author">Dr. Elena Rodriguez</span>
+                            <span class="comment-date">June 14, 2025</span>
+                        </div>
+                        <div class="comment-content">
+                            As someone working at the intersection of materials science and AI, I've found that geometric priors dramatically reduce the data requirements for training effective models. In crystal structure prediction, equivariant networks achieve comparable accuracy with orders of magnitude less training data than conventional CNNs or transformers. This efficiency is crucial when experimental data collection is expensive or time-consuming. However, I'm also exploring hybrid approaches that combine the flexibility of data-driven methods with the rigor of geometric constraints.
+                        </div>
+                    </div>
+
+                    <div class="comment-card">
+                        <div class="comment-header">
+                            <span class="comment-author">Alex Chen</span>
+                            <span class="comment-date">June 13, 2025</span>
+                        </div>
+                        <div class="comment-content">
+                            I'm skeptical about hard-coding geometric priors. With enough data and compute, foundation models should be able to learn these principles automatically. The AlphaFold series shows that large-scale training can lead to implicit understanding of complex geometric constraints without explicit programming. Maybe we should focus on scaling rather than hand-engineering constraints? That said, I acknowledge that in data-limited domains like experimental chemistry, geometric priors may still be necessary as a practical compromise.
+                        </div>
+                    </div>
+
+                    <div class="comment-card">
+                        <div class="comment-header">
+                            <span class="comment-author">Prof. Sarah Johnson</span>
+                            <span class="comment-date">June 12, 2025</span>
+                        </div>
+                        <div class="comment-content">
+                            I've worked on both sides of this debate, and my view has evolved. Early in my career, I was a strong advocate for explicit geometric modeling. However, after seeing the remarkable capabilities of large language models in scientific contexts, I now believe the answer lies in a principled hybrid approach. For core physical laws (conservation principles, symmetries), explicit constraints remain essential. But for higher-level patterns that emerge from data, we should let the model discover them. The challenge is determining where to draw this boundary for each scientific domain.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                Geo<span style="color: var(--accent-cyan);">FM</span>
+            </div>
+            <p style="max-width: 800px; margin: 0 auto 1rem; line-height: 1.7;">
+                Workshop on Geometric Foundation Models @ ICML 2025. Bringing together researchers in geometric deep learning, foundation models, and scientific computing to advance AI for Science.
+            </p>
+            <div class="footer-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="speakers.html" class="nav-link">Speakers</a>
+                <a href="organizers.html" class="nav-link">Organizers</a>
+                <a href="schedule.html" class="nav-link">Schedule</a>
+                <a href="forum.html" class="nav-link active">Forum</a>
+                <a href="awards.html" class="nav-link">Awards</a>
+                <a href="call-for-papers.html" class="nav-link">Call for Papers</a>
+                <a href="register.html" class="nav-link">Register</a>
+            </div>
+            <div class="copyright">
+                &copy; 2025 GeoFM Workshop. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Page navigation initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set active navigation link based on current page
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === currentPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+            
+            // Google sign-in simulation
+            const googleBtn = document.querySelector('.google-btn');
+            if (googleBtn) {
+                googleBtn.addEventListener('click', function() {
+                    alert('This would initiate Google OAuth flow in a production environment. For this demo, registration is simulated as successful.');
+                    // In a real implementation, this would trigger OAuth flow
+                    document.querySelector('.login-required').style.display = 'none';
+                });
+            }
+            
+            // Comment submission
+            const commentForm = document.querySelector('.submit-btn');
+            if (commentForm) {
+                commentForm.addEventListener('click', function() {
+                    const textarea = document.querySelector('.comment-input');
+                    const isAnonymous = document.getElementById('anonymous').checked;
+                    
+                    if (textarea.value.trim() !== '') {
+                        const now = new Date();
+                        const dateString = now.toLocaleDateString('en-US', { 
+                            month: 'long', 
+                            day: 'numeric', 
+                            year: 'numeric' 
+                        });
+                        
+                        const newComment = document.createElement('div');
+                        newComment.className = 'comment-card';
+                        newComment.innerHTML = `
+                            <div class="comment-header">
+                                <span class="comment-author">
+                                    ${isAnonymous ? `<span class="comment-anonymous">A</span> Anonymous Contributor` : 'Workshop Participant'}
+                                </span>
+                                <span class="comment-date">${dateString}</span>
+                            </div>
+                            <div class="comment-content">
+                                ${textarea.value}
+                            </div>
+                        `;
+                        
+                        document.querySelector('.comments-list').prepend(newComment);
+                        textarea.value = '';
+                        
+                        alert(`Comment ${isAnonymous ? '(posted anonymously)' : ''} has been submitted successfully!`);
+                    } else {
+                        alert('Please enter a comment before submitting.');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

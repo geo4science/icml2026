@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organizers | GeoFM Workshop @ ICML 2025</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #0a0d1a;
+            --primary-darker: #060912;
+            --primary-blue: #13244d;
+            --secondary-blue: #1d3a78;
+            --accent-cyan: #3dbbd3;
+            --accent-teal: #5ad8e6;
+            --light-bg: #f5f7fa;
+            --text-dark: #1a2332;
+            --text-light: #e0e6ef;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.18);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            background-color: #fafbfc;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(19, 36, 77, 0.03) 0%, rgba(10, 15, 29, 0.05) 100%);
+            z-index: -2;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            color: var(--primary-dark);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-accent {
+            color: var(--accent-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+        }
+
+        .nav-links a {
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-cyan);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-blue);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary-blue);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .section-container {
+            padding: 4rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 0.8rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--accent-cyan);
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--secondary-blue);
+            margin-top: 1rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .people-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .person-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .person-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .person-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .person-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-cyan);
+            background: var(--light-bg);
+            display: block;
+            margin: 0 auto 1rem;
+        }
+
+        .person-info h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 0.3rem;
+            text-align: center;
+        }
+
+        .person-info .role {
+            color: var(--accent-cyan);
+            font-weight: 600;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .person-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .person-body p {
+            line-height: 1.7;
+            margin-bottom: 0;
+            font-size: 1rem;
+            color: var(--text-dark);
+            text-align: left;
+        }
+
+        .person-footer {
+            padding: 0 1.5rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--primary-blue);
+            color: white;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--accent-cyan);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .footer {
+            background: var(--primary-darker);
+            color: var(--text-light);
+            padding: 2.5rem 0 1.5rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-logo span {
+            color: var(--accent-cyan);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .copyright {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .back-link:hover {
+            color: var(--secondary-blue);
+            transform: translateX(-3px);
+        }
+
+        /* Responsive design */
+        @media (max-width: 992px) {
+            .nav-links {
+                gap: 0.6rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .section-title {
+                font-size: 1.7rem;
+            }
+            
+            .people-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .content-section {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                Geo<span class="logo-accent">FM</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="speakers.html" class="nav-link">Speakers</a></li>
+                <li><a href="organizers.html" class="nav-link active">Organizers</a></li>
+                <li><a href="schedule.html" class="nav-link">Schedule</a></li>
+                <li><a href="forum.html" class="nav-link">Forum</a></li>
+                <li><a href="awards.html" class="nav-link">Awards</a></li>
+                <li><a href="call-for-papers.html" class="nav-link">Call for Papers</a></li>
+                <li><a href="register.html" class="nav-link">Register</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Organizers Page -->
+    <div class="content-section">
+        <div class="section-container">
+            <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+            
+            <div class="section-header">
+                <h2 class="section-title">Workshop Organizers</h2>
+                <p class="section-subtitle">Our organizing committee bringing together experts across geometry and foundation models</p>
+            </div>
+
+            <div class="people-grid">
+                <div class="person-card">
+                    <div class="person-header">
+                        <img src="照片/Chunchen Wang.png" alt="Chunchen Wang" class="person-avatar">
+                        <div class="person-info">
+                            <h3>Chunchen Wang</h3>
+                            <div class="role">Ph.D. Student, MBZUAI</div>
+                        </div>
+                    </div>
+                    <div class="person-body">
+                        <p>Chunchen Wang is a Ph.D. student at MBZUAI. His research focuses on graph data mining and machine learning algorithms. As an active young researcher, he explores applications of graph neural networks in complex systems and maintains close academic collaborations with top international laboratories, regularly publishing at premier conferences in the field.</p>
+                    </div>
+                    <div class="person-footer">
+                        <a href="https://scholar.google.com/citations?user=4pCIcsUAAAAJ" class="social-link" target="_blank">
+                            <i class="fas fa-graduation-cap"></i>
+                        </a>
+                        <a href="https://github.com/example" class="social-link" target="_blank">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://twitter.com/example" class="social-link" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="person-card">
+                    <div class="person-header">
+                        <img src="照片/Karish Grove.jpg" alt="Karish Grover" class="person-avatar">
+                        <div class="person-info">
+                            <h3>Karish Grover</h3>
+                            <div class="role">Ph.D. Student, Carnegie Mellon University</div>
+                        </div>
+                    </div>
+                    <div class="person-body">
+                        <p>Karish Grover is a Ph.D. student at Carnegie Mellon University. His research focuses on the co-design of machine learning systems and graph neural networks, with special attention to efficient learning algorithms for ultra-large-scale graph data. He works on solving computational and storage bottlenecks for billion-node graph data, with his research on scalable graph learning receiving significant attention at top conferences like KDD and NeurIPS.</p>
+                    </div>
+                    <div class="person-footer">
+                        <a href="https://karish-grover.github.io/" class="social-link" target="_blank">
+                            <i class="fas fa-link"></i>
+                        </a>
+                        <a href="https://scholar.google.com/citations?user=example" class="social-link" target="_blank">
+                            <i class="fas fa-graduation-cap"></i>
+                        </a>
+                        <a href="https://github.com/example" class="social-link" target="_blank">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="person-card">
+                    <div class="person-header">
+                        <img src="照片/Pietro Liò.png" alt="Pietro Liò" class="person-avatar">
+                        <div class="person-info">
+                            <h3>Pietro Liò</h3>
+                            <div class="role">Professor, University of Cambridge</div>
+                        </div>
+                    </div>
+                    <div class="person-body">
+                        <p>Pietro Liò is a Professor in the Department of Computer Science and Technology at the University of Cambridge and a renowned expert in artificial intelligence and bioinformatics. His research primarily focuses on graph neural networks (GNNs), multimodal learning, and their applications in computational biology. As a proactive advocate for AI for Science, he is dedicated to developing advanced AI models to tackle complex problems in genomics and personalized medicine.</p>
+                    </div>
+                    <div class="person-footer">
+                        <a href="https://www.cl.cam.ac.uk/~pl219/" class="social-link" target="_blank">
+                            <i class="fas fa-link"></i>
+                        </a>
+                        <a href="https://scholar.google.com/citations?user=example" class="social-link" target="_blank">
+                            <i class="fas fa-graduation-cap"></i>
+                        </a>
+                        <a href="https://twitter.com/example" class="social-link" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="person-card">
+                    <div class="person-header">
+                        <img src="照片/Philip S. Yu.avif" alt="Philip S. Yu" class="person-avatar">
+                        <div class="person-info">
+                            <h3>Philip S. Yu</h3>
+                            <div class="role">Distinguished Professor, University of Illinois Chicago</div>
+                        </div>
+                    </div>
+                    <div class="person-body">
+                        <p>Philip S. Yu is a Distinguished Professor and Wexler Chair Professor at the University of Illinois Chicago, and a Fellow of both ACM and IEEE. He has made pioneering contributions to graph mining, social network analysis, and deep learning. With exceptionally high academic impact, he has received numerous lifetime achievement awards including the SIGKDD Innovation Award and is ranked among the world's most highly cited computer scientists.</p>
+                    </div>
+                    <div class="person-footer">
+                        <a href="https://cs.uic.edu/profiles/philip-yu/" class="social-link" target="_blank">
+                            <i class="fas fa-link"></i>
+                        </a>
+                        <a href="https://scholar.google.com/citations?user=example" class="social-link" target="_blank">
+                            <i class="fas fa-graduation-cap"></i>
+                        </a>
+                        <a href="https://twitter.com/example" class="social-link" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="person-card">
+                    <div class="person-header">
+                        <img src="各前部分人物照片/Marinka Zitnik.png" alt="Marinka Zitnik" class="person-avatar">
+                        <div class="person-info">
+                            <h3>Marinka Zitnik</h3>
+                            <div class="role">Associate Professor, Harvard University</div>
+                        </div>
+                    </div>
+                    <div class="person-body">
+                        <p>Marinka Zitnik is an Associate Professor at Harvard Medical School, focusing on establishing AI foundations that can autonomously acquire scientific understanding to enhance drug development and personalized medicine. She is the co-founder of Therapeutics Data Commons, dedicated to promoting international collaboration in AI4Science. Her research focuses on creating AI models that can tackle complex biomedical problems with real-world impact.</p>
+                    </div>
+                    <div class="person-footer">
+                        <a href="https://zitniklab.hms.harvard.edu" class="social-link" target="_blank">
+                            <i class="fas fa-link"></i>
+                        </a>
+                        <a href="https://scholar.google.com/citations?user=example" class="social-link" target="_blank">
+                            <i class="fas fa-graduation-cap"></i>
+                        </a>
+                        <a href="https://twitter.com/example" class="social-link" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="person-card">
+                    <div class="person-header">
+                        <img src="各前部分人物照片/Li Sun.png" alt="Li Sun" class="person-avatar">
+                        <div class="person-info">
+                            <h3>Li Sun</h3>
+                            <div class="role">Associate Professor, Beijing University of Posts and Telecommunications</div>
+                        </div>
+                    </div>
+                    <div class="person-body">
+                        <p>Li Sun is an Associate Professor at Beijing University of Posts and Telecommunications. His main research directions include graph mining, Riemannian machine learning, and continual learning. He is committed to utilizing non-Euclidean geometry theory to solve the over-smoothing problem of graph neural networks, has won the CIKM 2022 Best Paper Award, and has conducted visiting research at the University of Illinois. His work bridges theoretical advances with practical applications in scientific domains.</p>
+                    </div>
+                    <div class="person-footer">
+                        <a href="https://sunli-ai.github.io" class="social-link" target="_blank">
+                            <i class="fas fa-link"></i>
+                        </a>
+                        <a href="https://scholar.google.com/citations?user=example" class="social-link" target="_blank">
+                            <i class="fas fa-graduation-cap"></i>
+                        </a>
+                        <a href="https://github.com/example" class="social-link" target="_blank">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="person-card">
+                    <div class="person-header">
+                        <img src="各前部分人物照片/Zhongtian Sun.webp" alt="Zhongtian Sun" class="person-avatar">
+                        <div class="person-info">
+                            <h3>Zhongtian Sun</h3>
+                            <div class="role">Lecturer, University of Kent</div>
+                        </div>
+                    </div>
+                    <div class="person-body">
+                        <p>Zhongtian Sun is a Lecturer at the University of Kent, having previously held research positions at both the University of Cambridge and the University of Oxford. His research focuses on explainable AI and graph representation learning. As a Mila AI Policy Scholar, he is also dedicated to financial technology applications and AI security policy research, working to ensure AI systems are transparent, fair, and beneficial to society.</p>
+                    </div>
+                    <div class="person-footer">
+                        <a href="https://kent.ac.uk/school-of-computing/" class="social-link" target="_blank">
+                            <i class="fas fa-link"></i>
+                        </a>
+                        <a href="https://scholar.google.com/citations?user=example" class="social-link" target="_blank">
+                            <i class="fas fa-graduation-cap"></i>
+                        </a>
+                        <a href="https://twitter.com/example" class="social-link" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                Geo<span style="color: var(--accent-cyan);">FM</span>
+            </div>
+            <p style="max-width: 800px; margin: 0 auto 1rem; line-height: 1.7;">
+                Workshop on Geometric Foundation Models @ ICML 2025. Bringing together researchers in geometric deep learning, foundation models, and scientific computing to advance AI for Science.
+            </p>
+            <div class="footer-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="speakers.html" class="nav-link">Speakers</a>
+                <a href="organizers.html" class="nav-link active">Organizers</a>
+                <a href="schedule.html" class="nav-link">Schedule</a>
+                <a href="forum.html" class="nav-link">Forum</a>
+                <a href="awards.html" class="nav-link">Awards</a>
+                <a href="call-for-papers.html" class="nav-link">Call for Papers</a>
+                <a href="register.html" class="nav-link">Register</a>
+            </div>
+            <div class="copyright">
+                &copy; 2025 GeoFM Workshop. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Page navigation initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set active navigation link based on current page
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === currentPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

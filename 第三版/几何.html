@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>SVG 平面绘制分子结构图 (完整版)</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffffff;
+        }
+
+        .drawing-container {
+            width: 600px;
+            max-width: 90%;
+        }
+
+        svg {
+            width:100%;
+            height: auto;
+        }
+
+        /* --- 样式定义 --- */
+        
+        /* 1. 节点样式 */
+        .node {
+            fill: #1CB5E0; /* 青色 */
+        }
+
+        /* 2. 实线样式 (中心放射线) */
+        .line-solid {
+            stroke: #888888;
+            stroke-width: 4; /* 实线稍微粗一点 */
+            stroke-linecap: round;
+        }
+
+        /* 3. 虚线样式 (几何辅助线) */
+        .line-dashed {
+            stroke: #999999;
+            stroke-width: 2.5;
+            stroke-dasharray: 8, 6; /* 虚线样式 */
+            stroke-linecap: round;
+        }
+
+        /* 4. 填充面样式 */
+        .shade-face {
+            fill: #BFEAF5; 
+            opacity: 0.5;  
+            stroke: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="drawing-container">
+        <svg viewBox="0 0 400 350" xmlns="http://www.w3.org/2000/svg">
+            
+            <polygon points="150,50 330,170 300,300" class="shade-face" />
+
+            <line x1="150" y1="50"  x2="40"  y2="300" class="line-dashed" /> <line x1="40"  y1="300" x2="300" y2="300" class="line-dashed" /> <line x1="150" y1="50"  x2="330" y2="170" class="line-dashed" /> <line x1="330" y1="170" x2="300" y2="300" class="line-dashed" /> <line x1="150" y1="50" x2="300" y2="300" class="line-dashed" />
+            <line x1="40" y1="300" x2="330" y2="170" class="line-dashed" />
+
+
+            <line x1="150" y1="50"  x2="190" y2="180" class="line-solid" /> <line x1="330" y1="170" x2="190" y2="180" class="line-solid" /> <line x1="40"  y1="300" x2="190" y2="180" class="line-solid" /> <line x1="300" y1="300" x2="190" y2="180" class="line-solid" /> <circle cx="330" cy="170" r="22" class="node" /> <circle cx="150" cy="50"  r="22" class="node" /> <circle cx="40"  cy="300" r="22" class="node" /> <circle cx="300" cy="300" r="22" class="node" /> <circle cx="190" cy="180" r="22" class="node" /> </svg>
+    </div>
+
+</body>
+</html>
